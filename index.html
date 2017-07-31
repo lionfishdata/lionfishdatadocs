@@ -1,0 +1,662 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="google-site-verification" content="ZxKSonHR9fGKxGY0pK48MMg1-0Zm4bMEyZAmhbmQys0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-88890615-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+      <script src="javascripts/all.js" type="text/javascript"></script>
+
+      <script>
+        $(function() {
+          setupLanguages(["shell"]);
+        });
+      </script>
+  </head>
+
+  <body class="index">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/lionfish.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+<p>LionFish provides data on the biggest ecommerce retailers in the world: Amazon, Walmart, AliExpress, and more.</p>
+
+<h1 id="supported-retailers">Supported retailers</h1>
+
+<p>The table below shows the endpoints available for each retailer. Contact support@lionfishdata.com if you want to request support for a new retailer.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Retailer Code</th>
+<th>Product Details</th>
+<th>Product Prices</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>AliExpress</td>
+<td>aliexpress</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Amazon</td>
+<td>amazon</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Amazon United Kingdom</td>
+<td>amazon_uk</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Amazon Canada</td>
+<td>amazon_ca</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Amazon Mexico</td>
+<td>amazon_mx</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Costco</td>
+<td>costco</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Walmart</td>
+<td>walmart</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+</tbody></table>
+
+          <h1 id="authentication">Authentication</h1>
+
+<blockquote>
+<p>Example authentication request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl https://api.lionfishdata.com/v1/products/B00W9FLKTY/fast?retailer<span class="o">=</span>amazon <span class="se">\</span>
+  -u &lt;client_token&gt;:
+</code></pre>
+
+<p>You can authenticate your account by including your client token in your request. Authentication is performed through HTTP Basic Auth, where the client token is the basic auth username value. You do not need to provide a password.</p>
+
+<p>Make sure that you don&rsquo;t share your client token and that you keep it away from publicly accessible areas such as Github, client-side code, etc. Client tokens are tied to your account, so you will be charged for any orders or requests made with your client token. If you believe your client token has been compromised, please contact support@lionfishdata.com immediately.</p>
+
+          <h1 id="get-realtime-product-info">Get realtime product info</h1>
+
+<p>Get critical product data delivered realtime including title, description, price, and more for any product on <strong>Amazon</strong> (more retailers coming soon).</p>
+
+<blockquote>
+<p>Example realtime product info request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl https://api.lionfishdata.com/v1/products/B00W9FLKTY/fast?retailer<span class="o">=</span>amazon <span class="se">\</span>
+  -u &lt;client_token&gt;:
+</code></pre>
+
+<p>To retrieve product info, make a GET request to the following URL, replacing <code class="prettyprint">:product_id</code> with the retailer&rsquo;s unique identifier for a particular product and specifying the request attributes as query parameters in the URL.</p>
+
+<p><code class="prettyprint">https://api.lionfishdata.com/v1/products/:product_id/fast?retailer=amazon</code></p>
+
+<h3 id="required-request-attributes">Required request attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>retailer</td>
+<td>String</td>
+<td>The retailer for the product</td>
+</tr>
+</tbody></table>
+
+<h3 id="optional-request-attributes">Optional request attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>timeout</td>
+<td>Number</td>
+<td>Number of seconds to process the request before aborting (default 60 seconds).</td>
+</tr>
+<tr>
+<td>max_age</td>
+<td>Number</td>
+<td>The data returned in the response will be at most this many seconds old. The minimum is 30 seconds. <strong>To take full advantage of caching set this value based on your application&rsquo;s requirements.</strong></td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Example product info response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+  <span class="s2">"status"</span>: <span class="s2">"completed"</span>,
+  <span class="s2">"original_retail_price"</span>: 3797,
+  <span class="s2">"timestamp"</span>: 1501535860,
+  <span class="s2">"retailer"</span>: <span class="s2">"amazon"</span>,
+  <span class="s2">"feature_bullets"</span>: <span class="o">[</span>
+    <span class="s2">"USB 3.0 4 ports super speed hub for computer/notebook. Drive free, supports: Windows (XP/Vista/7/8/8.1/10), Mac OSx(10.x and above), and Linux."</span>,
+    <span class="s2">"The built-in intelligent USB charging port (2A/1A), has an intelligent auto switching chip."</span>
+  <span class="o">]</span>,
+  <span class="s2">"images"</span>: <span class="o">[</span>
+    <span class="s2">"https://images-na.ssl-images-amazon.com/images/I/71CpWUVHpyL.jpg"</span>,
+    <span class="s2">"https://images-na.ssl-images-amazon.com/images/I/711M8uk%2BYVL.jpg"</span>
+  <span class="o">]</span>,
+  <span class="s2">"package_dimensions"</span>: <span class="o">{</span>
+    <span class="s2">"weight"</span>: <span class="o">{</span>
+      <span class="s2">"amount"</span>: 3.2,
+      <span class="s2">"unit"</span>: <span class="s2">"ounces"</span>
+    <span class="o">}</span>,
+    <span class="s2">"size"</span>: <span class="o">{</span>
+      <span class="s2">"width"</span>: <span class="o">{</span>
+        <span class="s2">"amount"</span>: 8.7,
+        <span class="s2">"unit"</span>: <span class="s2">"inches"</span>
+      <span class="o">}</span>,
+      <span class="s2">"depth"</span>: <span class="o">{</span>
+        <span class="s2">"amount"</span>: 41.3,
+        <span class="s2">"unit"</span>: <span class="s2">"inches"</span>
+      <span class="o">}</span>,
+      <span class="s2">"length"</span>: <span class="o">{</span>
+        <span class="s2">"amount"</span>: 16.5,
+        <span class="s2">"unit"</span>: <span class="s2">"inches"</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>,
+  <span class="s2">"price"</span>: 1399,
+  <span class="s2">"question_count"</span>: 115,
+  <span class="s2">"asin"</span>: <span class="s2">"B00W9FLKTY"</span>,
+  <span class="s2">"ship_price"</span>: 0,
+  <span class="s2">"main_image"</span>: <span class="s2">"https://images-na.ssl-images-amazon.com/images/I/71CpWUVHpyL.jpg"</span>,
+  <span class="s2">"review_count"</span>: 582,
+  <span class="s2">"product_id"</span>: <span class="s2">"B00W9FLKTY"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"USB 3.0 Hub, atolla 4 Ports Super Speed USB 3 Hub Splitter With On Off Switch With 1 USB Charging Port (Cable Length 2 Feet, No AC adapter)"</span>,
+  <span class="s2">"MPN"</span>: <span class="s2">"CH-204U3"</span>,
+  <span class="s2">"product_description"</span>: <span class="s2">"Color:4-Port Hub without AC adapter           The Perfect USB 3.0 HUB you ever</span><span class="se">\n</span><span class="s2">need   SuperSpeed Sync and Dynamic FastCharging: Extend 4 more USB 3.0 Ports +</span><span class="se">\n</span><span class="s2">1 Fast Charger Port (up to 2.1 Amps) Unplugging-Free: Individual on/off switch</span><span class="se">\n</span><span class="s2">turns off port whenever you don't need it.  Vertical USB Port provides</span><span class="se">\n</span><span class="s2">additional space for </span><span class="se">\"</span><span class="s2">fat</span><span class="se">\"</span><span class="s2"> USB devices and plugs Nice Design, Solid Built with</span><span class="se">\n</span><span class="s2">a strong cable of 26</span><span class="se">\"</span><span class="s2"> length.  Provide one 5V DC port for an additional power</span><span class="se">\n</span><span class="s2">adapter."</span>,
+  <span class="s2">"product_details"</span>: <span class="o">[</span>
+    <span class="s2">"Product Dimensions: 41.3 x 16.5 x 8.7 inches"</span>,
+    <span class="s2">"Item Weight: 3.2 ounces"</span>
+  <span class="o">]</span>,
+  <span class="s2">"categories"</span>: <span class="o">[</span>
+    <span class="s2">"Electronics"</span>,
+    <span class="s2">"Computers &amp; Accessories"</span>
+  <span class="o">]</span>,
+  <span class="s2">"stars"</span>: null,
+  <span class="s2">"brand"</span>: <span class="s2">"Atolla"</span>,
+  <span class="s2">"variant_specifics"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"dimension"</span>: <span class="s2">"Color"</span>,
+      <span class="s2">"value"</span>: <span class="s2">"4-Port Hub without AC adapter"</span>
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"all_variants"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"variant_specifics"</span>: <span class="o">[</span>
+        <span class="o">{</span>
+          <span class="s2">"dimension"</span>: <span class="s2">"Color"</span>,
+          <span class="s2">"value"</span>: <span class="s2">"4-Port Hub without AC adapter"</span>
+        <span class="o">}</span>
+      <span class="o">]</span>,
+      <span class="s2">"product_id"</span>: <span class="s2">"B00W9FLKTY"</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+
+<h3 id="response-attributes">Response attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>String</td>
+<td>Possible values are <code class="prettyprint">processing</code>, <code class="prettyprint">failed</code>, or <code class="prettyprint">completed</code></td>
+</tr>
+<tr>
+<td>retailer</td>
+<td>String</td>
+<td>The retailer for the product</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>String</td>
+<td>The retailer&rsquo;s unique identifier for the product</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Number</td>
+<td>The price of the product (buy box)</td>
+</tr>
+<tr>
+<td>ship_price</td>
+<td>Number</td>
+<td>The price to ship the product (buy box)</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>Title of the product</td>
+</tr>
+<tr>
+<td>main_image</td>
+<td>String</td>
+<td>The URL of the primary image associated with the product</td>
+</tr>
+<tr>
+<td>images</td>
+<td>Array</td>
+<td>An array of image URLs associated with the product</td>
+</tr>
+<tr>
+<td>variant_specifics</td>
+<td>Array</td>
+<td>Array of objects containing information about the types and values of product variants available. A variant specifics object contains a <code class="prettyprint">dimension</code> field describing the type of the variant (e.g. &ldquo;Color&rdquo;) and a <code class="prettyprint">value</code> field describing the specific value available</td>
+</tr>
+<tr>
+<td>product_description</td>
+<td>String</td>
+<td>The description of the product</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>String</td>
+<td>The timestamp that the resource was accessed</td>
+</tr>
+</tbody></table>
+
+          <h1 id="get-product-details">Get product details</h1>
+
+<p>Get up to date information on the title, description, manufacturer details, item specifics, and more for any product on our supported retailers.</p>
+
+<blockquote>
+<p>Example product details request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl https://api.lionfishdata.com/v1/products/0923568964?retailer<span class="o">=</span>amazon <span class="se">\</span>
+  -u &lt;client_token&gt;:
+</code></pre>
+
+<p>To retrieve product details, make a GET request to the following URL, replacing <code class="prettyprint">:product_id</code> with the retailer&rsquo;s unique identifier for a particular product and specifying the request attributes as query parameters in the URL.</p>
+
+<p><code class="prettyprint">https://api.lionfishdata.com/v1/products/:product_id</code></p>
+
+<h3 id="required-request-attributes">Required request attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>retailer</td>
+<td>String</td>
+<td>The retailer for the product</td>
+</tr>
+</tbody></table>
+
+<h3 id="optional-request-attributes">Optional request attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>timeout</td>
+<td>Number</td>
+<td>Number of seconds to process the request before aborting (default 60 seconds).</td>
+</tr>
+<tr>
+<td>max_age</td>
+<td>Number</td>
+<td>The data returned in the response will be at most this many seconds old. The minimum is 30 seconds. <strong>To take full advantage of caching set this value based on your application&rsquo;s requirements.</strong></td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Example product details response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+  <span class="s2">"status"</span>: <span class="s2">"completed"</span>,
+  <span class="s2">"product_description"</span>: <span class="s2">"This is a great book!"</span>,
+  <span class="s2">"retailer"</span>: <span class="s2">"amazon"</span>,
+  <span class="s2">"epids"</span>:[
+    <span class="o">{</span>
+      <span class="s2">"type"</span>: <span class="s2">"EAN"</span>,
+      <span class="s2">"value"</span>: <span class="s2">"9780923568962"</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"type"</span>: <span class="s2">"ISBN"</span>,
+      <span class="s2">"value"</span>: <span class="s2">"0923568964"</span>
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"product_details"</span>: <span class="o">[</span>
+    <span class="s2">"Series: The Easy Way!"</span>,
+    <span class="s2">"Paperback: 60 pages"</span>,
+    <span class="s2">"Publisher: XanEdu Publishing Inc; 2nd Edition edition (September 28, 2009)"</span>,
+    <span class="s2">"Language: English"</span>,
+    <span class="s2">"ISBN-10: 0923568964"</span>,
+    <span class="s2">"ISBN-13: 978-0923568962"</span>,
+    <span class="s2">"Product Dimensions: 8.3 x 5.3 x 0.2 inches"</span>,
+    <span class="s2">"Shipping Weight: 3.5 ounces"</span>
+  <span class="o">]</span>,
+  <span class="s2">"title"</span>: <span class="s2">"APA: The Easy Way! [Updated for APA 6th Edition]"</span>,
+  <span class="s2">"variant_specifics"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"dimension"</span>: <span class="s2">"Color"</span>,
+      <span class="s2">"value"</span>: <span class="s2">"Gray"</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"dimension"</span>: <span class="s2">"Size"</span>,
+      <span class="s2">"value"</span>: <span class="s2">"Small/Medium"</span>
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"product_id"</span>: <span class="s2">"0923568964"</span>
+<span class="o">}</span>
+</code></pre>
+
+<h3 id="response-attributes">Response attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>String</td>
+<td>Possible values are <code class="prettyprint">processing</code>, <code class="prettyprint">failed</code>, or <code class="prettyprint">completed</code>.</td>
+</tr>
+<tr>
+<td>retailer</td>
+<td>String</td>
+<td>The retailer for the product</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>String</td>
+<td>The retailer&rsquo;s unique identifier for the product</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>String</td>
+<td>The timestamp that the resource was accessed</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>Title of the product</td>
+</tr>
+<tr>
+<td>product_details</td>
+<td>Array</td>
+<td>An array of strings providing details about the product</td>
+</tr>
+<tr>
+<td>main_image</td>
+<td>String</td>
+<td>The URL of the primary image associated with the product</td>
+</tr>
+<tr>
+<td>images</td>
+<td>Array</td>
+<td>An array of image URLs associated with the product</td>
+</tr>
+<tr>
+<td>variant_specifics</td>
+<td>Array</td>
+<td>Array of objects containing information about the types and values of product variants available. A variant specifics object contains a <code class="prettyprint">dimension</code> field describing the type of the variant (e.g. &ldquo;Color&rdquo;) and a <code class="prettyprint">value</code> field describing the specific value available</td>
+</tr>
+<tr>
+<td>categories</td>
+<td>Array</td>
+<td>Array of different categories that the product belongs in</td>
+</tr>
+<tr>
+<td>authors</td>
+<td>Array</td>
+<td>Array of author names (only available for products that are books)</td>
+</tr>
+<tr>
+<td>product_description</td>
+<td>String</td>
+<td>The description of the product</td>
+</tr>
+<tr>
+<td>epids</td>
+<td>Array</td>
+<td>Array of objects containing external product identifier (epid) objects. An epid object contains a <code class="prettyprint">type</code> field describing the name of the external product identifier and a <code class="prettyprint">value</code> field for the identifier&rsquo;s value</td>
+</tr>
+</tbody></table>
+
+<h1 id="get-product-prices">Get product prices</h1>
+
+<p>Get information about all the offers for a particular product, including seller name, item price, shipping price, condition, seller reputation, and more.</p>
+
+<blockquote>
+<p>Example product offers request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl https://api.lionfishdata.com/v1/products/0923568964/offers?retailer<span class="o">=</span>amazon <span class="se">\</span>
+  -u &lt;client_token&gt;:
+</code></pre>
+
+<p>To retrieve product offers and prices, make a GET request to the following URL, replacing <code class="prettyprint">:product_id</code> with the retailer&rsquo;s unique identifier for a particular product and specifying the request attributes as query parameters in the URL.</p>
+
+<p><code class="prettyprint">https://api.lionfishdata.com/v1/products/:product_id/offers</code></p>
+
+<h3 id="required-request-attributes">Required request attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>retailer</td>
+<td>String</td>
+<td>The retailer for the product</td>
+</tr>
+</tbody></table>
+
+<h3 id="optional-request-attributes">Optional request attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>max_age</td>
+<td>Number</td>
+<td>The data returned in the response will be at most this many seconds old. The minimum is 30 seconds. <strong>To take full advantage of caching set this value based on your application&rsquo;s requirements.</strong></td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>Number</td>
+<td>Number of seconds to process the request before aborting (default 60 seconds).</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Example product offers response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+  <span class="s2">"retailer"</span>: <span class="s2">"amazon"</span>,
+  <span class="s2">"status"</span>: <span class="s2">"completed"</span>,
+  <span class="s2">"offers"</span>:[
+    <span class="o">{</span>
+      <span class="s2">"addon"</span>: <span class="nb">false</span>,
+      <span class="s2">"condition"</span>: <span class="s2">"New"</span>,
+      <span class="s2">"handling_days_max"</span>: 0,
+      <span class="s2">"handling_days_min"</span>: 0,
+      <span class="s2">"international"</span>: <span class="nb">false</span>,
+      <span class="s2">"merchant_id"</span>: <span class="s2">"ATVPDKIKX0DER"</span>,
+      <span class="s2">"offerlisting_id"</span>: <span class="s2">"lUai8vEbhC%2F2vYZDwaePlc4baWiHzAy9XJncUR%2FpQ9l4VOrs%2FfpYt4ZtreQaB%2BPL1xJwz5OpIc%2BJjyymHg3iv4YkZvWy5z7flil7n7lUDWNPY76YUhMNdw%3D%3D"</span>,
+      <span class="s2">"price"</span>: 9.79,
+      <span class="s2">"ship_price"</span>: 0
+      <span class="s2">"prime"</span>: <span class="nb">true</span>,
+      <span class="s2">"prime_only"</span>: <span class="nb">false</span>,
+      <span class="s2">"seller_name"</span>: <span class="s2">"Amazon.com"</span>,
+      <span class="s2">"seller_num_ratings"</span>: 1000000,
+      <span class="s2">"seller_percent_positive"</span>: 100
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+
+<h3 id="response-attributes">Response attributes</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>String</td>
+<td>Possible values are <code class="prettyprint">processing</code>, <code class="prettyprint">failed</code>, or <code class="prettyprint">completed</code>.</td>
+</tr>
+<tr>
+<td>retailer</td>
+<td>String</td>
+<td>The retailer for the product offers</td>
+</tr>
+<tr>
+<td>offers</td>
+<td>Array</td>
+<td>An array of <a href="#product-offer-object">product offer objects</a> for a particular product on a retailer</td>
+</tr>
+</tbody></table>
+
+          <h1 id="errors">Errors</h1>
+
+<blockquote>
+<p>Example error response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+  <span class="s2">"_type"</span>: <span class="s2">"error"</span>,
+  <span class="s2">"code"</span>: <span class="s2">"product_unavailable"</span>,
+  <span class="s2">"message"</span>: <span class="s2">"One of the products you selected is unavailable."</span>,
+  <span class="s2">"data"</span>: <span class="o">{</span><span class="s1">'product_id'</span>: <span class="s1">'018293801'</span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>If there is an error processing a request, the result endpoint will return an error object containing three fields: <code class="prettyprint">code</code>, <code class="prettyprint">message</code>, and <code class="prettyprint">data</code>.</p>
+
+<p>The <code class="prettyprint">code</code> field provides a short, unique error code describing the error situation. The <code class="prettyprint">message</code> field provides a human readable message describing the error and is intended for the developer and not the end user. The <code class="prettyprint">data</code> field contains specific information related to the error (for example, the maximum quantity allowed and the desired quantity would be shown for a <code class="prettyprint">max_quantity_exceeded</code> error).</p>
+
+<p>The LionFish API uses the following errors:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expired_product_id</td>
+<td>The product_id you used is no longer supported by the retailer.</td>
+</tr>
+<tr>
+<td>insufficient_variants</td>
+<td>You did not select all required variants for a product.</td>
+</tr>
+<tr>
+<td>internal_error</td>
+<td>LionFish or the retailer you requested is experiencing outages. Please try again or contact support@lionfishdata.com if this error persists.</td>
+</tr>
+<tr>
+<td>invalid_client_token</td>
+<td>Your client token is invalid.</td>
+</tr>
+<tr>
+<td>invalid_json</td>
+<td>The JSON in your request could not be parsed.</td>
+</tr>
+<tr>
+<td>invalid_request</td>
+<td>Validation failed on the request.</td>
+</tr>
+<tr>
+<td>invalid_variant</td>
+<td>One of the product variants you provided was not valid.</td>
+</tr>
+<tr>
+<td>unauthorized_access</td>
+<td>You are not authorized to make this API call. Please contact support@lionfishdata.io.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
