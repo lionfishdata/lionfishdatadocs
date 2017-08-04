@@ -7,7 +7,6 @@ language_tabs:
 includes:
   - authentication
   - realtime
-  - products
   - errors
 
 search: true
