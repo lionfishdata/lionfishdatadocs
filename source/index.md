@@ -5,9 +5,8 @@ language_tabs:
   - shell
 
 includes:
-  - authentication
   - realtime
-  - errors
+  - api
 
 search: true
 ---
