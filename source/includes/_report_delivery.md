@@ -19,4 +19,4 @@ If you choose to have your reports delivered using email, an email will be sent 
 }
 ```
 
-If you choose to have your reports delivered using webhook we will post JSON to the url you specified when creating your schedule. That json will contain a URL (under the json key `download_url`) from which your report can be downloaded from.
+If you choose to have your reports delivered using webhook we will post json to the url you specified when creating your schedule. That json will contain a URL (under the json key `download_url`) where your report can be downloaded from.
