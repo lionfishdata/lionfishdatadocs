@@ -6,6 +6,7 @@ language_tabs:
 
 includes:
   - realtime
+  - report_delivery
   - api
 
 search: true
