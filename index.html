@@ -110,19 +110,6 @@
 </tr>
 </tbody></table>
 
-          <h1 id="authentication">Authentication</h1>
-
-<blockquote>
-<p>Example authentication request</p>
-</blockquote>
-<pre class="highlight shell"><code>curl https://api.lionfishdata.com/v1/products/B00W9FLKTY/fast?retailer<span class="o">=</span>amazon <span class="se">\</span>
-  -u &lt;client_token&gt;:
-</code></pre>
-
-<p>You can authenticate your account by including your client token in your request. Authentication is performed through HTTP Basic Auth, where the client token is the basic auth username value. You do not need to provide a password.</p>
-
-<p>Make sure that you don&rsquo;t share your client token and that you keep it away from publicly accessible areas such as Github, client-side code, etc. Client tokens are tied to your account, so you will be charged for any orders or requests made with your client token. If you believe your client token has been compromised, please contact support@lionfishdata.com immediately.</p>
-
           <h1 id="get-realtime-product-info">Get realtime product info</h1>
 
 <p>Get critical product data delivered realtime including title, description, price, and more for any product on <strong>Amazon</strong> (more retailers coming soon).</p>
@@ -134,9 +121,13 @@
   -u &lt;client_token&gt;:
 </code></pre>
 
-<p>To retrieve product info, make a GET request to the following URL, replacing <code class="prettyprint">:product_id</code> with the retailer&rsquo;s unique identifier for a particular product and specifying the request attributes as query parameters in the URL.</p>
+<p>To retrieve product info, make a GET request to the following URL, replacing <code class="prettyprint">:product_id</code> with the retailer&rsquo;s unique identifier for a particular product and specifying the request attributes as query parameters in the URL</p>
 
 <p><code class="prettyprint">https://api.lionfishdata.com/v1/products/:product_id/fast?retailer=amazon</code></p>
+
+<h3 id="authentication">Authentication</h3>
+
+<p>You authenticate your account by including your <a href="https://www.lionfishdata.com/user/-/realtime/try">client token</a> in your request. Authentication is performed through HTTP Basic Auth, where the client token is the basic auth username value. You do not need to provide a password.</p>
 
 <h3 id="required-request-attributes">Required request attributes</h3>
 
@@ -317,7 +308,7 @@
 </tr>
 </tbody></table>
 
-          <h1 id="errors">Errors</h1>
+<h3 id="errors">Errors</h3>
 
 <blockquote>
 <p>Example error response</p>
@@ -375,6 +366,117 @@
 <td>You are not authorized to make this API call. Please contact support@lionfishdata.io.</td>
 </tr>
 </tbody></table>
+
+          <h1 id="report-delivery">Report delivery</h1>
+
+<h2 id="email">Email</h2>
+
+<p>If you choose to have your reports delivered using email, an email will be sent to the address your schedule specified. The email will contain a download url.</p>
+
+<h2 id="webhook">Webhook</h2>
+
+<blockquote>
+<p>Example json that would be posted to your webhook</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+    <span class="s2">"list_name"</span>: <span class="s2">"MyList"</span>,
+    <span class="s2">"download_url"</span>:<span class="s2">"https://lionfish-reports.s3.amazonaws.com/2eea6ae4-205e-4b34-9872-a48d8114b7c6/2017-08-15/e1ca2d69e92349d1a886e5a8ace3504f.csv"</span>
+    <span class="s2">"schedule_id"</span>: <span class="s2">"BxnPDkeVzcFbz7b5xdCJg3"</span>
+    <span class="s2">"run_id"</span>: <span class="s2">"FMCURdeAERDVdzUb1PQZoD"</span>
+    <span class="s2">"job_type"</span>: <span class="s2">"details"</span>
+    <span class="s2">"user_id"</span>: <span class="s2">"6o1q5PyxH4URELKq9k5Qvy"</span>
+    <span class="s2">"list_id"</span>: <span class="s2">"Kue8WUQNTSn5tqJ3EvTkQx"</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>If you choose to have your reports delivered using webhook we will post JSON to the url you specified when creating your schedule. That json will contain a URL (under the json key <code class="prettyprint">download_url</code>) from which your report can be downloaded from.</p>
+
+          <h1 id="automating-lionfish">Automating Lionfish</h1>
+
+<p>You can automate everything in LionFish&rsquo;s web interface using our API. You will find documentation on how to authenticate and some example common operations. If you want to do something that is not documented you can inspect the network panel in your web browser while using the web interface or contact support.</p>
+
+<h2 id="api-access">API Access</h2>
+
+<blockquote>
+<p>Example request that grants an access token</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s2">"Content-Type:application/json"</span> -d <span class="s1">'{"api_key": "API_KEY_HERE"}'</span> <span class="se">\</span>
+<span class="s2">"https://www.lionfishdata.com/v0/account/YOUR_ACCOUNT_ID/api_login"</span>
+</code></pre>
+
+<p>Go to the <a href="https://www.lionfishdata.com/user/-/api">API access page</a> and copy Account ID and API Key.  If you lose your API Key or accidentally expose it, click &ldquo;Generate API key&rdquo; and it will be revoked and a new key generated. If you loose your API Key we can not recover it and you will have to generate a new one.</p>
+
+<p>This API key cannot be used directly. Instead, you need to exchange it for a short-lived security token, which can then be used in our API. See the request to the right for an example.</p>
+
+<blockquote>
+<p>Example request that includes an <code class="prettyprint">Authorization</code> header</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s2">"Authorization: Bearer YOUR_TOKEN_VALUE"</span> -H <span class="s2">"Content-Type:application/json"</span> <span class="se">\</span>
+<span class="s2">"https://www.lionfishdata.com/v0/user/YOUR_ACCOUNT_ID/lists"</span>
+</code></pre>
+
+<p>You will get back json which contains a <code class="prettyprint">token</code> key. Include this token in an <code class="prettyprint">Authorization: Bearer YOUR_TOKEN_VALUE</code> header to all API requests.</p>
+
+<h2 id="list-your-lists">List your lists</h2>
+
+<blockquote>
+<p>Example request that returns all your lists</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s2">"Authorization: Bearer YOUR_TOKEN_VALUE"</span> -H <span class="s2">"Content-Type:application/json"</span> <span class="se">\</span>
+<span class="s2">"https://www.lionfishdata.com/v0/user/YOUR_ACCOUNT_ID/lists"</span>
+</code></pre>
+
+<blockquote>
+<p>Example response of all your lists</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+  <span class="s2">"count"</span>: 50,
+  <span class="s2">"data"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"created_time"</span>: <span class="s2">"2017-07-24T19:28:11.464760+00:00"</span>,
+      <span class="s2">"frontend_details"</span>: <span class="o">{</span>
+        <span class="s2">"description"</span>: <span class="s2">"Just a list"</span>
+      <span class="o">}</span>,
+      <span class="s2">"id"</span>: <span class="s2">"F9pfzK3rsvCyZsgHrnbpvW"</span>,
+      <span class="s2">"name"</span>: <span class="s2">"Test Products"</span>,
+      <span class="s2">"num_products"</span>: 202,
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"created_time"</span>: <span class="s2">"2017-08-15T21:02:03.850895+00:00"</span>,
+      <span class="s2">"frontend_details"</span>: <span class="o">{}</span>,
+      <span class="s2">"id"</span>: <span class="s2">"Kue8WUQNTSn5tqJ3EvTkQx"</span>,
+      <span class="s2">"name"</span>: <span class="s2">"My list"</span>,
+      <span class="s2">"num_products"</span>: 11,
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"offset"</span>: 0,
+  <span class="s2">"total_count"</span>: 2,
+  <span class="s2">"url"</span>: <span class="s2">"https://www.lionfishdata.com/v0/user/YOUR_ACCOUNT_ID/lists"</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>Often the first thing you will want to do is get a list of your lists so you can find a particular list&rsquo;s id.</p>
+
+<h2 id="updating-your-list">Updating your list</h2>
+
+<p><a href="/#list-your-lists">Once you have a list&rsquo;s id</a>, its easy to replace the products in a list. <strong>This will remove all existing items!</strong> Replacing the list rather than updating has the benefit that you don&rsquo;t need to keep track of which items were removed or added, just <code class="prettyprint">PUT</code> them all. All <a href="/#supported-retailers">retailer codes</a> are supported.</p>
+
+<blockquote>
+<p>Example request that replaces your list&rsquo;s products</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X PUT -H <span class="s2">"Authorization: Bearer YOUR_TOKEN_VALUE"</span> -H <span class="s2">"Content-Type:application/json"</span> <span class="se">\</span>
+ <span class="s1">'https://www.lionfishdata.com/v0/user/YOUR_ACCOUNT_ID/lists/LIST_ID/products'</span> <span class="se">\</span>
+ -d <span class="s1">'{"products":[{"retailer":"amazon","product_id":"B00000J0G7"},{"retailer":"amazon","product_id":"B010S9N6OO"}]}'</span>
+</code></pre>
+
+<blockquote>
+<p>Example response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+  <span class="s2">"num_products"</span>: 1,
+  <span class="s2">"success"</span>: <span class="nb">true</span>
+<span class="o">}</span>
+</code></pre>
 
       </div>
       <div class="dark-box">
