@@ -8,7 +8,7 @@ You can automate everything in LionFish's web interface using our API. You will 
 
 ```shell
 curl -H "Content-Type:application/json" -d '{"api_key": "API_KEY_HERE"}' \
-"https://www.lionfishdata.com/v0/account/YOUR_ACCOUNT_ID/api_login"
+"https://www.lionfishdata.com/v0/user/YOUR_ACCOUNT_ID/api_login"
 ```
 
 Go to the [API access page](https://www.lionfishdata.com/user/-/api) and copy Account ID and API Key.  If you lose your API Key or accidentally expose it, click "Generate API key" and it will be revoked and a new key generated. If you loose your API Key we can not recover it and you will have to generate a new one.
