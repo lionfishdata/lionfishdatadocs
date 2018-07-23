@@ -66,7 +66,13 @@ Often the first thing you will want to do is get a list of your lists so you can
 
 ## Updating your list
 
-[Once you have a list's id](/#list-your-lists), its easy to replace the products in a list. **This will remove all existing items!** Replacing the list rather than updating has the benefit that you don't need to keep track of which items were removed or added, just `PUT` them all. All [retailer codes](/#supported-retailers) are supported.
+[Once you have a list's id](/#list-your-lists), its easy to replace the products in a list. **This will remove all existing items!** Replacing the list rather than updating has the benefit that you don't need to keep track of which items were removed or added, just `PUT` them all.
+
+### Standard list
+
+All [retailer codes](/#supported-retailers) are supported.
+
+> Standard list
 
 > Example request that replaces your list's products
 
@@ -83,4 +89,57 @@ curl -X PUT -H "Authorization: Bearer YOUR_TOKEN_VALUE" -H "Content-Type:applica
   "num_products": 1,
   "success": true
 }
+```
+
+
+### Smart list
+
+Fetch all products from the retailer's product list url and put it in a list.
+
+1. go to retailer's website.
+2. search for the interested category, apply filters if needed.
+3. copy the url in location bar.
+
+
+Technically, all the urls are supported that have paginator at the bottom.
+
+
+Only **amazon** (US) retailer is supported.
+
+> Smart list
+
+> Example request that replaces your list's products
+
+```shell
+curl -X POST -H "Authorization: Bearer YOUR_TOKEN_VALUE" -H "Content-Type:application/json" \
+ 'https://www.lionfishdata.com/v0/user/YOUR_ACCOUNT_ID/lists/SMART_LIST_ID/run' \
+ -d '{ "output_type": "email", "output_address": YOUR_EMAIL_ADDRESS, "job_type": "smartlist", "output_transformer": { "name": "LineSeparatedJson" } }'
+```
+
+> Example response
+
+```shell
+{
+  "completed": 0,
+  "created_time": "2018-07-23T15:19:12.634358+00:00",
+  "deadline_time": "2018-07-23T16:19:12.636425+00:00",
+  "failure_reason": null,
+  "finish_time": null,
+  "id": "D2LWmDsRrC44eapWBBDZhT",
+  "job_type": "smartlist",
+  "list_id": SMART_LIST_ID,
+  "output_address": YOUR_EMAIL_ADDRESS,
+  "output_transformer": {
+    "name": "LineSeparatedJson"
+  },
+  "output_type": "email",
+  "progress": null,
+  "queued_jobs": 0,
+  "results_url": null,
+  "schedule_id": null,
+  "start_time": "2018-07-23T15:19:12.636425+00:00",
+  "state": "processing",
+  "user_id": YOUR_ACCOUNT_ID
+}
+
 ```
