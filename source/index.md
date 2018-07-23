@@ -5,7 +5,6 @@ language_tabs:
   - shell
 
 includes:
-  - realtime
   - report_delivery
   - api
 
